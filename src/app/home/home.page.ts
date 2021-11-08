@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RestService } from '../services/rest.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,25 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  public pruebas = [
+    {
+    id: '1',
+    title: 'prueba1',
+    img: 'assets/icon/logoAG.png',
+    comentarios: ['pruebadec1.1', 'pruebadec2.1']
+  }
+
+]
+
+  token: any;
+  usuarios: any;
+
+  constructor(public restService: RestService) {
+    
+  }
+  
+  ngOninit(){
+
+  }
 
 }
