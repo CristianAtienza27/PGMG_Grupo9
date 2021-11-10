@@ -7,6 +7,7 @@ import { Usuarios, Usuario } from '../administration/interfaces/interface';
 })
 export class RestService {
   token: any;
+
   apiUrl = 'http://semillero.allsites.es/public/api';
   constructor(private http: HttpClient) { }
 
@@ -33,11 +34,27 @@ export class RestService {
         password: mypassword})     
         .subscribe(data => {
           this.token = data.data.token; 
-          console.log(data);
-          resolve(data);            
+          resolve(data);   
+          console.log(data);   
+          err=> {
+            console.log(err)
+          }      
       });
 
     });
+  }
+
+  obtenerUsuarios(){
+    return new Promise(resolve => {
+      this.http.get<Usuarios>(this.apiUrl + '/users',{
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err)
+      }})
+    })
   }
 
   registrarUsuario(myName: string, mySecondname: string, myCompany_id : number, myEmail: string, myPassword: string, myPasswordConf : string){
@@ -57,16 +74,66 @@ export class RestService {
     });
   }
 
-  obtenerUsuarios(tok: any){
+  activarUsuario(id: number){
+
     return new Promise(resolve => {
-      this.http.get<Usuarios>(this.apiUrl + '/users',{
+      this.http.post(this.apiUrl + '/activate',
+      {
+        user_id: id
+      },
+      {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err);
+      }
+      })
+    })
+  }
+
+  desactivarUsuario(id: number){
+
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/deactivate',
+      {
+        user_id: id
+      },
+      {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err);
+      }
+      })
+    })
+  }
+
+  editarUsuario(){
+
+  }
+
+  eliminarUsuario(tok: any, id: number){
+
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/delete/{id}',
+      {
+        user_id: id
+      },
+      {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + tok)
       })
       .subscribe(data => {resolve(data)
         console.log(data);
       err => {
-        console.log(err)
-      }})
+        console.log(err);
+      }
+      })
     })
+
   }
+
 }

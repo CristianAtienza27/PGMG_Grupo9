@@ -4,6 +4,7 @@ import {  FormGroup,
           Validators, 
           FormBuilder } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { stringify } from 'querystring';
 import { RestService } from '../services/rest.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginPage implements OnInit {
   restService: RestService;
   usuario: string;
   contraseña: string;
+  data: any;
 
   constructor(public fb: FormBuilder, public alertControler: AlertController,restService: RestService) { 
     this.formularioLogin = this.fb.group({
@@ -25,7 +27,6 @@ export class LoginPage implements OnInit {
     })
 
     this.restService = restService;
-    //this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password);
 
   }
 
@@ -45,7 +46,13 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password);
+    this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password)
+    .then(data => {
+      this.data = data;
+      this.data = this.data.data;
+      console.log(this.data);
+    })
+
   }
 
 }

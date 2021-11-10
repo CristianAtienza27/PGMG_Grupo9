@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from '../services/rest.service';
 import { ViewChild } from '@angular/core';
 import { IonList } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administration',
@@ -11,36 +12,49 @@ import { IonList } from '@ionic/angular';
 export class AdministrationPage implements OnInit {
 
   usuarios : any
-  token : any
-  
+
   //Referencia 
   @ViewChild('lista',{static:true}) lista: IonList;
 
-  constructor(private restService : RestService) {
+  constructor(private restService : RestService, private route: Router) {
 
   }
 
   ngOnInit() {
     
-    this.restService.obtenerUsuarios(this.restService.token)
+    if(this.restService.token != undefined){
+
+      this.restService.obtenerUsuarios()
     .then(usuario => {
       this.usuarios = usuario;
       this.usuarios = this.usuarios.data;
     });
 
+    }
+    else{
+      this.route.navigate(['/login']);
+    }
+
   }
 
-  favorito(user) {
-    console.log('favorite', user);
+  activar(user) {
+    this.restService.activarUsuario(user.id);
     this.lista.closeSlidingItems();
-   }
-   compartir(user) {
-    console.log('share', user);
+  }
+
+  desactivar(user) {
+    this.restService.desactivarUsuario(user.id);
     this.lista.closeSlidingItems();
-   }
-   borrar(user) {
-    console.log('delete', user);
+  }
+
+  editar(user) {
+    console.log('editar', user);
     this.lista.closeSlidingItems();
-   }
+  }
+
+  eliminar(user) {
+    console.log('eliminar', user);
+    this.lista.closeSlidingItems();
+  }
 
 }
