@@ -16,3 +16,8 @@ export interface Usuario{
     company: string;
     created_at: Date;
 }
+
+export interface Company{
+    id: number;
+    name: string;
+}

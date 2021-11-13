@@ -28,8 +28,8 @@ const routes: Routes = [
     loadChildren: () => import('./administration/administration.module').then( m => m.AdministrationPageModule)
   },
   {
-    path: 'user',
-    loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
+    path: 'form-user-modal',
+    loadChildren: () => import('./form-user-modal/form-user-modal.module').then( m => m.FormUserModalPageModule)
   },
 ];
 
