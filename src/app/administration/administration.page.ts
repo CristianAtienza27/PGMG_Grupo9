@@ -5,6 +5,7 @@ import { IonList, ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
+import { Usuario } from './interfaces/interface';
 
 @Component({
   selector: 'app-administration',
@@ -14,7 +15,7 @@ import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
 export class AdministrationPage implements OnInit {
 
   usuarios : any
-  usuario
+  usuario: any;
   //Referencia 
   @ViewChild('lista',{static:true}) lista: IonList;
 
@@ -26,15 +27,33 @@ export class AdministrationPage implements OnInit {
     private loadingCtrl : LoadingController) {
   }
 
-  ngOnInit() {
-    
-    console.log('hey' + this.restService.token)
+  async ngOnInit() {
 
     if(this.restService.token != undefined){
-      this.actualizar();
+
+      this.restService.obtenerUsuario()
+      .then(user => {
+        this.usuario = user;
+        this.usuario = this.usuario.data;
+
+        if(this.usuario.email_confirmed == 1){
+
+          if(this.usuario.actived == 1){
+            this.actualizar();
+          }else{
+            this.redirectToLogin('Espere a ser activado por el administrador');
+          }
+  
+        }else{
+          this.redirectToLogin('Confirme el email en su bandeja de entrada');
+        }
+      })
+        
     }
     else{
-      this.route.navigate(['/login']);
+
+      this.redirectToLogin('Credenciales incorrectas');
+
     }
     
   }
@@ -134,6 +153,19 @@ export class AdministrationPage implements OnInit {
       event.target.complete();
       this.getUsuarios()
     }, 50);
+  }
+
+  async redirectToLogin(message){
+
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: message,
+      buttons: ['Aceptar'],
+    });
+
+    this.route.navigate(['/login']);
+    await alert.present();
+
   }
   
 }
