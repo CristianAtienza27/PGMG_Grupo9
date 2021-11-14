@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Usuario } from '../administration/interfaces/interface';
 import {  FormGroup, 
           FormControl, 
           Validators, 
@@ -14,12 +16,14 @@ import { RestService } from '../services/rest.service';
 export class LoginPage implements OnInit {
 
   formularioLogin: FormGroup;
+  usuario: any;
 
   constructor(
     public fb: FormBuilder, 
-    public alertControler: AlertController,
+    public alertController: AlertController,
     public restService: RestService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public route: Router,
     )
     { 
     this.formularioLogin = this.fb.group({
@@ -36,24 +40,47 @@ export class LoginPage implements OnInit {
   async login(){
 
     if(this.formularioLogin.invalid){
-      const alert = await this.alertControler.create({
-        header: 'Datos incompletos',
-        message: 'Tienes que llenar todos los campos.',
-        buttons: ['Aceptar'],
-      });
-      await alert.present();
+      this.showAlert('Datos incompletos','Tienes que llenar todos los campos');
       return;
     }
 
-    const loading = await this.loadingCtrl.create({
-      message: 'Cargando...'
-    });
-    loading.present();
-    setTimeout(() => {
-      loading.dismiss();
-      this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password);
-    }, 600 );
+    this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password)
+    .then(data => {
+
+      this.usuario = data;
+      this.usuario = this.usuario.data;
+
+      this.restService.obtenerUsuario()
+      .then(user => {
+        this.usuario = user;
+        this.usuario = this.usuario.data;
+
+        if(this.usuario.email_confirmed == 0){
+
+          if(this.usuario.actived == 1){
+            this.route.navigate(['/administration'])
+          }else{
+            this.showAlert('Error','Espere a ser activado por el administrador');
+          }
+  
+        }else{
+          this.showAlert('Error','Confirme el email en su bandeja de entrada');
+        }
+      })
+
+    })
     
+  }
+
+  async showAlert(header, message){
+
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['Aceptar'],
+    });
+  
+    await alert.present();
   }
 
 }

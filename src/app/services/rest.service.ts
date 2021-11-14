@@ -8,7 +8,6 @@ import { Usuarios, Usuario, Company } from '../administration/interfaces/interfa
 export class RestService {
   token: any;
   id: number;
-  actived: number;
 
   apiUrl = 'http://semillero.allsites.es/public/api';
   constructor(private http: HttpClient) { }
@@ -21,7 +20,7 @@ export class RestService {
         password: '123456'})     
         .subscribe(data => {
           this.token = data.data.token; 
-          console.log(data); 
+          console.log(this.token); 
           resolve(data);
       });
 
@@ -37,9 +36,8 @@ export class RestService {
         .subscribe(data => {
           this.token = data.data.token;
           this.id = data.data.id; 
-          this.actived = data.data.actived;
           resolve(data);   
-          console.log(data);   
+          console.log(data);    
           err=> {
             console.log(err)
           }      

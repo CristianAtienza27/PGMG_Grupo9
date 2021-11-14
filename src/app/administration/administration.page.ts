@@ -27,34 +27,9 @@ export class AdministrationPage implements OnInit {
     private loadingCtrl : LoadingController) {
   }
 
-  async ngOnInit() {
+   ngOnInit() {
 
-    if(this.restService.token != undefined){
-
-      this.restService.obtenerUsuario()
-      .then(user => {
-        this.usuario = user;
-        this.usuario = this.usuario.data;
-
-        if(this.usuario.email_confirmed == 1){
-
-          if(this.usuario.actived == 1){
-            this.actualizar();
-          }else{
-            this.redirectToLogin('Espere a ser activado por el administrador');
-          }
-  
-        }else{
-          this.redirectToLogin('Confirme el email en su bandeja de entrada');
-        }
-      })
-        
-    }
-    else{
-
-      this.redirectToLogin('Credenciales incorrectas');
-
-    }
+    this.getUsuarios();
     
   }
 
@@ -154,18 +129,4 @@ export class AdministrationPage implements OnInit {
       this.getUsuarios()
     }, 50);
   }
-
-  async redirectToLogin(message){
-
-    const alert = await this.alertController.create({
-      header: 'Error',
-      message: message,
-      buttons: ['Aceptar'],
-    });
-
-    this.route.navigate(['/login']);
-    await alert.present();
-
-  }
-  
 }
