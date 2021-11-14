@@ -3,25 +3,28 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>REGISTER</ion-title>
+    <ion-title>{{ titulo }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>EDITAR USUARIO </ion-card-title>
+      <ion-card-title> Datos Usuario </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup] = "formularioRegistration">
         <ion-item lines="full">
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input formControlName = "nombre" [(ngModel)]="user.firstname" type="text" required></ion-input>
+          <ion-input formControlName = "nombre" *ngIf="user !== undefined" [(ngModel)]="user.firstname" type="text" required></ion-input>
+          <ion-input formControlName = "nombre" *ngIf="user === undefined" type="text" required></ion-input>
         </ion-item>
       
         <ion-item lines="full">
           <ion-label position="floating">Apellidos</ion-label>
-          <ion-input formControlName = "apellidos" [(ngModel)]="user.secondname"  type="text" required></ion-input>
+          <ion-input formControlName = "apellidos" *ngIf="user !== undefined" [(ngModel)]="user.secondname"  type="text" required></ion-input>
+          <ion-input formControlName = "apellidos" *ngIf="user === undefined" type="text" required></ion-input>
+          
         </ion-item>
 
         <ion-item lines="full">
@@ -33,7 +36,8 @@
     
         <ion-item lines="full">
           <ion-label position="floating">Email</ion-label>
-          <ion-input formControlName = "email"  type="text" [(ngModel)]="user.email" required></ion-input>
+          <ion-input formControlName = "email"  type="text" *ngIf="user !== undefined" [(ngModel)]="user.email" required></ion-input>
+          <ion-input formControlName = "email"  type="text" *ngIf="user === undefined" required></ion-input>
         </ion-item>
     
         <ion-item lines="full">
@@ -47,7 +51,7 @@
         </ion-item>
 
         <ion-col>
-          <ion-button (click)="confirmar()" color="info" expand="block">CONFIRMAR</ion-button>
+          <ion-button (click)="confirmar()" color="blue" expand="block">CONFIRMAR</ion-button>
           <ion-button (click)="cancelar()"  color="danger" expand="block">CANCELAR</ion-button>
         </ion-col>
       </form>

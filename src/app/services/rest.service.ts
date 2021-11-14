@@ -44,16 +44,16 @@ export class RestService {
     });
   }
 
-  registrarUsuario(myName: string, mySecondname: string, myCompany_id : number, myEmail: string, myPassword: string, myPasswordConf : string){
+  registrarUsuario(usuario: any){
     return new Promise(resolve => {
       this.http.post(this.apiUrl + '/register', 
       {
-        firstname: myName,
-        secondname: mySecondname,
-        email: myEmail,
-        password: myPassword,
-        c_password: myPasswordConf,
-        company_id: myCompany_id})
+        firstname: usuario.nombre,
+        secondname: usuario.apellidos,
+        email: usuario.email,
+        password: usuario.password,
+        c_password: usuario.password,
+        company_id: usuario.company_id,})
         .subscribe(data => {
           console.log(data);
           resolve(data);
@@ -99,17 +99,17 @@ export class RestService {
     })
   }
 
-  editarUsuario(id:number, myName: string, mySecondname: string, myCompany_id : number, myEmail: string, myPassword: string){
+  editarUsuario(usuario: any) {
 
     return new Promise(resolve => {
-      this.http.post(this.apiUrl + '/user/updated/' + id,
+      this.http.post(this.apiUrl + '/user/updated/' + usuario.id,
       {
-        user_id: id,
-        firstname: myName,
-        secondname: mySecondname,
-        email: myEmail,
-        password: myPassword,
-        company_id: myCompany_id
+        user_id: usuario.id,
+        firstname: usuario.nombre,
+        secondname: usuario.apellidos,
+        email: usuario.email,
+        password: usuario.password,
+        company_id: usuario.company_id,
       },
       {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)

@@ -19,7 +19,9 @@ export class FormUserModalPage implements OnInit {
   formularioRegistration: FormGroup;
 
   @Input() user;
+  @Input() titulo;
   companies: any;
+  usuario: any;
 
   constructor(public restService: RestService, public fb: FormBuilder, public modal: ModalController, public alertController: AlertController) {
 
@@ -35,8 +37,8 @@ export class FormUserModalPage implements OnInit {
       'apellidos': new FormControl("", Validators.required),
       'company_id': new FormControl("", Validators.required),
       'email': new FormControl("", Validators.required),
-      //'password': new FormControl("", Validators.required),
-      //'confirmpassword': new FormControl("", Validators.required)
+      'password': new FormControl("", Validators.required),
+      'confirmpassword': new FormControl("", Validators.required)
     })
 
   }
@@ -70,27 +72,37 @@ export class FormUserModalPage implements OnInit {
           handler: () => {
             var f = this.formularioRegistration.value;
         
-            var usuario = {
-              id: this.user.id,
-              nombre: f.nombre,
-              apellidos: f.apellidos,
-              company_id: f.company_id,
-              email: f.email,
-              password: f.password
+            if(this.titulo == 'Editar Usuario'){
+
+                this.usuario = { 
+                id: this.user.id,
+                nombre: f.nombre,
+                apellidos: f.apellidos,
+                company_id: f.company_id,
+                email: f.email,
+                password: f.password
+              }
+            
+            }else{
+                this.usuario = {
+                nombre: f.nombre,
+                apellidos: f.apellidos,
+                company_id: f.company_id,
+                email: f.email,
+                password: f.password
+              }
             }
 
-            console.log(usuario)
+            console.log(this.usuario)
 
-            localStorage.setItem('usuario', JSON.stringify(usuario));
+            localStorage.setItem('usuario', JSON.stringify(this.usuario));
 
-            this.restService.editarUsuario(
-              usuario.id, 
-              usuario.nombre, 
-              usuario.apellidos, 
-              usuario.company_id,
-              usuario.email, 
-              usuario.password, 
-              );
+            if(this.titulo == 'Editar Usuario'){
+              this.restService.editarUsuario(this.usuario);
+            }
+            else{
+              this.restService.registrarUsuario(this.usuario);
+            }
 
             this.modal.dismiss();
             

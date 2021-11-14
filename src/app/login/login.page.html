@@ -1,11 +1,4 @@
-<ion-header>
-  <ion-toolbar color = "primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>LOG IN</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header titulo="Login" url="/home"></app-header>
 
 <ion-content>
   <ion-card>
@@ -20,15 +13,16 @@
         </ion-item>
     
         <ion-item lines="full">
-          <ion-label position="floating" color = "Primary">Password</ion-label>
+          <ion-label position="floating" color = "Primary">Contraseña</ion-label>
           <ion-input formControlName = "password" type="password" required></ion-input>
         </ion-item>
       <br>
         <ion-row>
           <ion-col>
-            <ion-button (click)="login()" [routerLink]="['/administration']" type="submit" color="danger" expand="block">SING IN</ion-button>
+            <ion-button (click)="login()" [routerLink]="['/administration']" type="submit" color="danger" expand="block">ENTRAR</ion-button>
             <br>
-            <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
+            <a [routerLink]="['/forgot-password']" class="small-text">¿Olvidó su contraseña?
+            </a>
           </ion-col>
         </ion-row>
       </form>

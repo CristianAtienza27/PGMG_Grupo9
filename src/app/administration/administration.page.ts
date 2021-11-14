@@ -69,7 +69,8 @@ export class AdministrationPage implements OnInit {
     const modal = await this.modalForm.create({
       component: FormUserModalPage,
       componentProps:{
-        user
+        user: user,
+        titulo: 'Editar Usuario'
       }
     })
 
@@ -109,7 +110,7 @@ export class AdministrationPage implements OnInit {
     setTimeout(() => {
       loading.dismiss();
       this.getUsuarios()
-    }, 100 );
+    }, 50 );
   }
 
   getUsuarios(){
@@ -121,5 +122,15 @@ export class AdministrationPage implements OnInit {
       this.usuarios = this.usuarios.data;
     });
   }}
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+      this.getUsuarios()
+    }, 50);
+  }
   
 }

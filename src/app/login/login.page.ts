@@ -47,17 +47,9 @@ export class LoginPage implements OnInit {
       await alert.present();
       return;
     }
-    
-    const loading = await this.loadingCtrl.create({});
-    loading.present();
-    setTimeout(() => {
-      loading.dismiss();
-      this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password)
-    .then(data => {
-      this.data = data;
-    })
-    }, 100 );
 
+    this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password)
+    
   }
 
 }

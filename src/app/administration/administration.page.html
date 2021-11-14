@@ -1,6 +1,10 @@
 <app-header titulo="Gestión Usuarios" url="/login"></app-header>
 
 <ion-content>
+
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   
   <ion-list #lista>
     <ion-item-sliding *ngFor="let usuario of usuarios">
