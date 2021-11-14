@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuarios, Company } from '../administration/interfaces/interface';
+import { Usuarios, Usuario, Company } from '../administration/interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
   token: any;
+  id: number;
 
   apiUrl = 'http://semillero.allsites.es/public/api';
   constructor(private http: HttpClient) { }
@@ -33,7 +34,8 @@ export class RestService {
         email: myemail, 
         password: mypassword})     
         .subscribe(data => {
-          this.token = data.data.token; 
+          this.token = data.data.token;
+          this.id = data.data.id; 
           resolve(data);   
           console.log(data);   
           err=> {
@@ -142,6 +144,19 @@ export class RestService {
       })
     })
 
+  }
+
+  obtenerUsuario(id: number){
+    return new Promise(resolve => {
+      this.http.get<Usuario>(this.apiUrl + '/user/' + id,{
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err)
+      }})
+    })
   }
 
   obtenerUsuarios(){

@@ -14,9 +14,6 @@ import { RestService } from '../services/rest.service';
 export class LoginPage implements OnInit {
 
   formularioLogin: FormGroup;
-  usuario: string;
-  contraseña: string;
-  data: any;
 
   constructor(
     public fb: FormBuilder, 
@@ -33,7 +30,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-  
+
   }
 
   async login(){
@@ -48,7 +45,14 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password)
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando...'
+    });
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.restService.loginReal(this.formularioLogin.value.email, this.formularioLogin.value.password);
+    }, 600 );
     
   }
 

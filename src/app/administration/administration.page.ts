@@ -14,7 +14,7 @@ import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
 export class AdministrationPage implements OnInit {
 
   usuarios : any
-
+  usuario
   //Referencia 
   @ViewChild('lista',{static:true}) lista: IonList;
 
@@ -27,6 +27,9 @@ export class AdministrationPage implements OnInit {
   }
 
   ngOnInit() {
+    
+    console.log('hey' + this.restService.token)
+
     if(this.restService.token != undefined){
       this.actualizar();
     }

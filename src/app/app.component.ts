@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { RestService } from './services/rest.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(public restService: RestService,public route: Router) {}
+
+  logout(){
+    this.restService.token = undefined;
+    this.route.navigate(['/login']);
+  }
 }
