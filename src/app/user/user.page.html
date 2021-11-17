@@ -1,0 +1,30 @@
+<app-header titulo="Catálogo"></app-header>
+
+<ion-content>
+  <ion-item-sliding *ngFor="let producto of productos">
+    <ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>{{ producto.id }}</h3>
+          <p>Precio: {{ producto.precio }}€</p>
+        </ion-label>
+        <ion-label slot="end" text-right>
+          <p>Color: {{ producto.color_name }}</p>
+          <p>Tamaño: {{ producto.size }}</p>
+          <p>Peso: {{ producto.weight}}</p>
+          </ion-label>
+      </ion-item>
+    </ion-item>
+    <ion-item-options slot="end">
+      <ion-item-option color="danger">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addArticle()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

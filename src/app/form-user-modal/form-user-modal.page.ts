@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { RestService } from '../services/rest.service';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormControl,
@@ -23,7 +24,7 @@ export class FormUserModalPage implements OnInit {
   companies: any;
   usuario: any;
 
-  constructor(public restService: RestService, public fb: FormBuilder, public modal: ModalController, public alertController: AlertController) {
+  constructor(public restService: RestService, public fb: FormBuilder, public modal: ModalController, public alertController: AlertController, public route: Router) {
 
     this.restService.obtenerCompanias()
     .then(companies => {
@@ -44,7 +45,7 @@ export class FormUserModalPage implements OnInit {
   }
 
   ngOnInit() {
-
+    
   }
 
   async confirmar() {
@@ -59,59 +60,71 @@ export class FormUserModalPage implements OnInit {
       return;
     }
 
-    const alert = await this.alertController.create({
-      header: 'Confirmación',
-      message: '¿Desea confirmar los cambios?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Confirmar',
-          handler: () => {
-            var f = this.formularioRegistration.value;
-        
-            if(this.titulo == 'Editar Usuario'){
+    var f = this.formularioRegistration.value;
 
-                this.usuario = { 
-                id: this.user.id,
-                nombre: f.nombre,
-                apellidos: f.apellidos,
-                company_id: f.company_id,
-                email: f.email,
-                password: f.password
+    if(this.titulo == 'Nuevo Usuario'){
+      this.usuario = {
+        nombre: f.nombre,
+        apellidos: f.apellidos,
+        company_id: f.company_id,
+        email: f.email,
+        password: f.password
+      }
+
+      this.restService.registrarUsuario(this.usuario);
+      this.modal.dismiss();
+
+    }
+    else{
+      const alert = await this.alertController.create({
+        header: 'Confirmación',
+        message: '¿Desea confirmar los cambios?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: 'Confirmar',
+            handler: () => {
+              var f = this.formularioRegistration.value;
+          
+              if(this.titulo == 'Editar Usuario'){
+  
+                  this.usuario = { 
+                  id: this.user.id,
+                  nombre: f.nombre,
+                  apellidos: f.apellidos,
+                  company_id: f.company_id,
+                  email: f.email,
+                  password: f.password
+                }
+  
+                this.restService.editarUsuario(this.usuario);
+              
+              }else{
+                  this.usuario = {
+                  nombre: f.nombre,
+                  apellidos: f.apellidos,
+                  company_id: f.company_id,
+                  email: f.email,
+                  password: f.password
+                }
+  
+                this.restService.registrarUsuario(this.usuario);
+  
               }
-            
-            }else{
-                this.usuario = {
-                nombre: f.nombre,
-                apellidos: f.apellidos,
-                company_id: f.company_id,
-                email: f.email,
-                password: f.password
-              }
+  
+              this.modal.dismiss();
+              
             }
-
-            console.log(this.usuario)
-
-            localStorage.setItem('usuario', JSON.stringify(this.usuario));
-
-            if(this.titulo == 'Editar Usuario'){
-              this.restService.editarUsuario(this.usuario);
-            }
-            else{
-              this.restService.registrarUsuario(this.usuario);
-            }
-
-            this.modal.dismiss();
-            
           }
-        }
-      ]
-    });
-
-    await alert.present();
+        ]
+      });
+  
+      await alert.present();
+    }
+ 
   }
 
   cancelar() {

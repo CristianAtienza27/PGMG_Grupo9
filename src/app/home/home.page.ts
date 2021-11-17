@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from '../services/rest.service';
 import { FormUserModalPage } from '../form-user-modal/form-user-modal.page'; 
 import { ModalController } from '@ionic/angular';
-import { Usuario } from '../administration/interfaces/interface';
+import { Usuario } from '../interfaces/interface';
 
 
 @Component({

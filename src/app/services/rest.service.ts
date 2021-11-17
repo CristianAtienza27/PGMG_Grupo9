@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuarios, Usuario, Company } from '../administration/interfaces/interface';
+import { Usuario, Usuarios, Company, Article, Product} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,8 @@ import { Usuarios, Usuario, Company } from '../administration/interfaces/interfa
 export class RestService {
   token: any;
   id: number;
+  company_id: number;
+  usuario: any;
 
   apiUrl = 'http://semillero.allsites.es/public/api';
   constructor(private http: HttpClient) { }
@@ -36,8 +38,9 @@ export class RestService {
         .subscribe(data => {
           this.token = data.data.token;
           this.id = data.data.id; 
+          this.company_id = data.data.company_id;
           resolve(data);   
-          console.log(data);    
+          console.log(data);   
           err=> {
             console.log(err)
           }      
@@ -152,6 +155,7 @@ export class RestService {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
       .subscribe(data => {resolve(data)
+        this.usuario = data;
         console.log(data);
       err => {
         console.log(err)
@@ -182,6 +186,94 @@ export class RestService {
         console.log(err)
       }})
     })
+  }
+
+  insertarProducto(producto: any) {
+
+    return new Promise(resolve => {
+      this.http.post<Product>(this.apiUrl + '/products', {
+        article_id: producto.id,
+        company_id: producto.company_id,
+        price: producto.price,
+        family_id: producto.family_id
+      },
+      {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err);
+      }})
+    })
+  }
+
+  obtenerArticulos(){
+
+    return new Promise(resolve => {
+      this.http.get<Article>(this.apiUrl + '/articles', {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err=> {
+        console.log(err);
+      }
+    })
+    })
+
+  }
+
+  obtenerProductosEmpresa(){
+
+    this.obtenerUsuario();
+
+    return new Promise(resolve =>{
+      this.http.post<Product>(this.apiUrl + '/products/company',
+      {
+        id: this.usuario.data.company_id
+      },
+      {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err);
+      }
+      })
+    })
+  }
+
+  obtenerFamilia(){
+    return new Promise(resolve =>{
+      this.http.get(this.apiUrl + '/families', {
+        headers: new HttpHeaders().set('Authorization', 'Bearer' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err=> {
+        console.log(err);
+      }})
+    })
+  }
+
+  eliminarProducto(){
+
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl + '/products/{id}', {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err=> {
+        console.log(err);
+      }
+    })
+    })
+
+  }
+
 }
-}
+
 

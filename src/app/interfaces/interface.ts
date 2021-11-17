@@ -21,3 +21,23 @@ export interface Company{
     id: number;
     name: string;
 }
+
+export interface Product{
+    article_id: number;
+    company_id: number;
+    price: number;
+    stock: number;
+    family_id: number;
+    deleted: number;
+}
+
+export interface Article{
+    id: number;
+    description: string;
+    company_id: number;
+    price: number;
+    stock: number;
+    family_id: number;
+    deleted: number;
+}
+

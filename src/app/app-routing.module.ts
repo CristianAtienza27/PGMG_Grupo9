@@ -27,6 +27,14 @@ const routes: Routes = [
     path: 'form-user-modal',
     loadChildren: () => import('./form-user-modal/form-user-modal.module').then( m => m.FormUserModalPageModule)
   },
+  {
+    path: 'form-article-modal',
+    loadChildren: () => import('./form-article-modal/form-article-modal.module').then( m => m.FormArticleModalPageModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
+  },
 ];
 
 @NgModule({

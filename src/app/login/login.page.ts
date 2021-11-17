@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Usuario } from '../administration/interfaces/interface';
 import {  FormGroup, 
           FormControl, 
           Validators, 
@@ -58,7 +57,14 @@ export class LoginPage implements OnInit {
         if(this.usuario.email_confirmed == 0){
 
           if(this.usuario.actived == 1){
-            this.route.navigate(['/administration'])
+
+            if(this.usuario.type == 'a'){
+              this.route.navigate(['/administration']);
+            }
+            else{
+              this.route.navigate(['/user']);
+            }
+            
           }else{
             this.showAlert('Error','Espere a ser activado por el administrador');
           }

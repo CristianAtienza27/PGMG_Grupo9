@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from '../services/rest.service';
 import { ViewChild } from '@angular/core';
 import { IonList, ModalController, LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
-import { Usuario } from './interfaces/interface';
 
 @Component({
   selector: 'app-administration',
@@ -16,21 +14,19 @@ export class AdministrationPage implements OnInit {
 
   usuarios : any
   usuario: any;
+  tipoUsuario: any;
   //Referencia 
   @ViewChild('lista',{static:true}) lista: IonList;
 
   constructor(
     private restService : RestService,
     public alertController: AlertController, 
-    private route: Router,
     public modalForm: ModalController,
     private loadingCtrl : LoadingController) {
   }
 
    ngOnInit() {
-
-    this.getUsuarios();
-    
+    this.getUsuarios(); 
   }
 
   async activar(user) {
@@ -90,6 +86,7 @@ export class AdministrationPage implements OnInit {
           text: 'Confirmar',
           handler: () => {
             this.restService.eliminarUsuario(user.id)
+            this.actualizar();
           }
         }
       ]
