@@ -12,23 +12,19 @@
 <ion-content>
   <ion-searchbar 
   placeholder='Buscar artículos'
-  [(ngModel)]="filtro"
   ></ion-searchbar>
     <ion-item-sliding *ngFor="let articulo of articulos">
       <ion-item>
         <ion-label>
-          <h3>{{ articulo.description }}</h3>
-          <p>Precio: {{ articulo.price_min }}-{{ articulo.price_max }}€</p>
+          <h3>{{ articulo['description'] }}</h3>
         </ion-label>
         <ion-label slot="end" text-right>
-          <p>Color: {{ articulo.color_name }}</p>
-          <p>Tamaño: {{ articulo.size }}</p>
-          <p>Peso: {{ articulo.weight}}</p>
+          <p>Precio: {{ articulo['price_min'] }}-{{ articulo['price_max'] }}€</p>
           </ion-label>
       </ion-item>
       <ion-item-options slot="start">
-        <ion-item-option color="success">
-          <ion-icon slot="icon-only" name="add-outline" (click)="addArticulo(articulo)"></ion-icon>
+        <ion-item-option color="success" (click)="addArticulo(articulo)">
+          <ion-icon slot="icon-only" name="add-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>

@@ -4,6 +4,7 @@ import { ViewChild } from '@angular/core';
 import { IonList, ModalController, LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
+import { Usuario } from '../interfaces/interface';
 
 @Component({
   selector: 'app-administration',
@@ -12,7 +13,7 @@ import { FormUserModalPage } from '../form-user-modal/form-user-modal.page';
 })
 export class AdministrationPage implements OnInit {
 
-  usuarios : any
+  usuarios : Usuario[];
   usuario: any;
   tipoUsuario: any;
   //Referencia 
@@ -26,7 +27,10 @@ export class AdministrationPage implements OnInit {
   }
 
    ngOnInit() {
-    this.getUsuarios(); 
+    //this.getUsuarios();
+    this.restService.obtenerUsuarios().subscribe (usuarios => {
+      this.usuarios = usuarios;
+    })
   }
 
   async activar(user) {
@@ -39,8 +43,12 @@ export class AdministrationPage implements OnInit {
     });
     await alert.present();
 
+    this.restService.obtenerUsuarios().subscribe (usuarios => {
+      this.usuarios = usuarios;
+    })
+
     this.lista.closeSlidingItems();
-    this.actualizar();
+    // this.actualizar();
   }
 
   async desactivar(user) {
@@ -52,9 +60,13 @@ export class AdministrationPage implements OnInit {
       buttons: ['Aceptar'],
     });
     await alert.present();
-  
+
+    this.restService.obtenerUsuarios().subscribe (usuarios => {
+      this.usuarios = usuarios;
+    })
+
     this.lista.closeSlidingItems();
-    this.actualizar();
+    // this.actualizar();
   }
 
   async editar(user) {
@@ -86,7 +98,10 @@ export class AdministrationPage implements OnInit {
           text: 'Confirmar',
           handler: () => {
             this.restService.eliminarUsuario(user.id)
-            this.actualizar();
+            this.restService.obtenerUsuarios().subscribe (usuarios => {
+              this.usuarios = usuarios;
+            })
+            //this.actualizar();
           }
         }
       ]
@@ -95,7 +110,7 @@ export class AdministrationPage implements OnInit {
     await alert.present();
 
     this.lista.closeSlidingItems();
-    this.actualizar();
+    //this.actualizar();
   }
 
   async actualizar(){
@@ -103,27 +118,20 @@ export class AdministrationPage implements OnInit {
     loading.present();
     setTimeout(() => {
       loading.dismiss();
-      this.getUsuarios()
-    }, 50 );
+      this.restService.obtenerUsuarios().subscribe (usuarios => {
+        this.usuarios = usuarios;
+      })
+    }, 100 );
   }
+  
+  // getUsuarios(){
+  //   if(this.restService.token != undefined){
 
-  getUsuarios(){
-    if(this.restService.token != undefined){
+  //     this.restService.obtenerUsuarios()
+  //   .then(usuario => {
+  //     this.usuarios = usuario;
+  //     this.usuarios = this.usuarios.data;
+  //   });
+  // }}
 
-      this.restService.obtenerUsuarios()
-    .then(usuario => {
-      this.usuarios = usuario;
-      this.usuarios = this.usuarios.data;
-    });
-  }}
-
-  doRefresh(event) {
-    console.log('Begin async operation');
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-      this.getUsuarios()
-    }, 50);
-  }
 }

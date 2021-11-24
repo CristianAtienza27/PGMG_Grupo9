@@ -14,7 +14,10 @@ export class UserPage implements OnInit {
 
   productos: any;
 
-  constructor(public restService: RestService,public modalForm: ModalController) { }
+  constructor(
+    public restService: RestService,
+    public modalForm: ModalController,
+    public loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.cargarProdutos();
@@ -25,11 +28,17 @@ export class UserPage implements OnInit {
     const modal = await this.modalForm.create({
       component: FormArticleModalPage,
       componentProps:{
-        titulo: 'Añadir artículo'
+        titulo: 'Añadir artículo',
+        productos: this.productos
       }
     })
 
     await modal.present();
+  }
+
+  borrarProducto(id: string){
+    this.restService.eliminarProducto(id);
+    this.actualizar();
   }
 
   cargarProdutos(){
@@ -38,5 +47,14 @@ export class UserPage implements OnInit {
       this.productos = data;
       this.productos = this.productos.data;
     })
+  }
+
+  async actualizar(){
+    const loading = await this.loadingCtrl.create({});
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.cargarProdutos();
+    }, 100 );
   }
 }

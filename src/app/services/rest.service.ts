@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario, Usuarios, Company, Article, Product} from '../interfaces/interface';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,14 @@ export class RestService {
   id: number;
   company_id: number;
   usuario: any;
+  usuarios: Usuario[];
+  usuarios$: Subject<Usuario[]>;
 
   apiUrl = 'http://semillero.allsites.es/public/api';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.usuarios = [];
+    this.usuarios$ = new Subject();
+   }
 
   login(){
     return new Promise(resolve => {
@@ -141,6 +147,7 @@ export class RestService {
       })
       .subscribe(data => {resolve(data)
         console.log(data);
+        this.usuarios$.next(this.usuarios);
       err => {
         console.log(err);
       }
@@ -163,13 +170,31 @@ export class RestService {
     })
   }
 
-  obtenerUsuarios(){
+  obtenerUsuarios(): Observable<Usuario[]>{
+
+      this.http.get<Usuarios>(this.apiUrl + '/users',{
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {
+        this.usuarios = data['data'];
+        console.log(data['data']);
+        this.usuarios$.next(this.usuarios);
+      err => {
+        console.log(err)
+      }
+    })
+
+    return this.usuarios$.asObservable();
+  }
+
+  obtenerUsuarios$(){
     return new Promise(resolve => {
       this.http.get<Usuarios>(this.apiUrl + '/users',{
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
       .subscribe(data => {resolve(data)
-        console.log(data);
+        this.usuarios = data['data'];
+        console.log(data['data']);
       err => {
         console.log(err)
       }})
@@ -192,8 +217,8 @@ export class RestService {
 
     return new Promise(resolve => {
       this.http.post<Product>(this.apiUrl + '/products', {
-        article_id: producto.id,
-        company_id: producto.company_id,
+        article_id: producto.article_id,
+        company_id: this.company_id,
         price: producto.price,
         family_id: producto.family_id
       },
@@ -215,7 +240,7 @@ export class RestService {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
       .subscribe(data => {resolve(data)
-        console.log(data);
+        console.log(data['data']);
       err=> {
         console.log(err);
       }
@@ -258,10 +283,10 @@ export class RestService {
     })
   }
 
-  eliminarProducto(){
+  eliminarProducto(id: string){
 
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl + '/products/{id}', {
+      this.http.delete(this.apiUrl + '/products/' + id , {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
       .subscribe(data => {resolve(data)
