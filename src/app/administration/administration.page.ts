@@ -98,10 +98,8 @@ export class AdministrationPage implements OnInit {
           text: 'Confirmar',
           handler: () => {
             this.restService.eliminarUsuario(user.id)
-            this.restService.obtenerUsuarios().subscribe (usuarios => {
-              this.usuarios = usuarios;
-            })
-            //this.actualizar();
+        
+            this.actualizar();
           }
         }
       ]

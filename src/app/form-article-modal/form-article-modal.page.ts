@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ModalController, AlertController, ToastController, IonSearchbar } from '@ionic/angular';
 import { RestService } from '../services/rest.service';
 import { Article } from '../interfaces/interface';
 
@@ -10,9 +10,11 @@ import { Article } from '../interfaces/interface';
 })
 export class FormArticleModalPage implements OnInit {
 
+  @ViewChild('search', { static: false }) search: IonSearchbar;
+
   @Input() titulo: string;
   @Input() productos: [];
-  filtro: string;
+  items: any;
   articulos: any[] = [];
   artProv: any[] = [];
   producto: any;
@@ -26,7 +28,6 @@ export class FormArticleModalPage implements OnInit {
     public toastCtrl: ToastController) {}
 
   ngOnInit() {
-
     this.cargarArticulos();
   }
 
@@ -34,8 +35,6 @@ export class FormArticleModalPage implements OnInit {
     this.restService.obtenerArticulos()
     .then(data => {
       this.artProv = data['data'];
-
-      console.log(this.artProv);
 
       this.productos.forEach(producto => {
         if(!this.idProd.includes(producto['article_id'])){
@@ -50,12 +49,9 @@ export class FormArticleModalPage implements OnInit {
       })
 
       var result = this.idArt.filter(id => !this.idProd.includes(id));
-      console.log(result);
 
       for(let i = 0; i < this.artProv.length; i++) {
-
         for(let j = 0; j < result.length; j++) {
-          console.log(this.artProv[i]['id'] + ' ' + result[j]);
           if(this.artProv[i]['id'] == result[j]){
             this.articulos.push(this.artProv[i])
           }
@@ -97,7 +93,7 @@ export class FormArticleModalPage implements OnInit {
               }
 
               this.restService.insertarProducto(this.producto);
-              this.cargarArticulos();
+              this.restService.obtenerProductosEmpresa();
               this.modal.dismiss();
             }
 
@@ -107,6 +103,26 @@ export class FormArticleModalPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  buscarArticulo(event){
+
+    const val = event.target.value;
+
+    if(val && val.trim() != '') {
+      this.articulos = this.articulos.filter((item: any) => {
+        return (item['description'].toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    else{
+     this.cargarArticulos();
+    }
+  }
+
+  IonViewDidEnter(){
+    setTimeout(() => {
+      this.search.setFocus();
+    });
   }
 
   async presentToast(price_min: any, price_max: any) {

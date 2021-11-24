@@ -10,8 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar 
-  placeholder='Buscar artículos'
+  <ion-searchbar #search placeholder='Buscar artículos' (ionChange)="buscarArticulo($event)"
   ></ion-searchbar>
     <ion-item-sliding *ngFor="let articulo of articulos">
       <ion-item>
