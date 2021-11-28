@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ModalController, AlertController, ToastController, IonSearchbar } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, IonSearchbar, LoadingController } from '@ionic/angular';
 import { RestService } from '../services/rest.service';
 import { Article } from '../interfaces/interface';
 
@@ -25,7 +25,8 @@ export class FormArticleModalPage implements OnInit {
     public restService: RestService,
     public modal: ModalController,
     public alertController: AlertController,
-    public toastCtrl: ToastController) {}
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController) {}
 
   ngOnInit() {
     this.cargarArticulos();
@@ -93,7 +94,8 @@ export class FormArticleModalPage implements OnInit {
               }
 
               this.restService.insertarProducto(this.producto);
-              this.restService.obtenerProductosEmpresa();
+              this.actualizar('Añadiendo producto');
+              //this.restService.obtenerProductosEmpresa();
               this.modal.dismiss();
             }
 
@@ -119,7 +121,7 @@ export class FormArticleModalPage implements OnInit {
     }
   }
 
-  IonViewDidEnter(){
+  ionViewDidEnter(){
     setTimeout(() => {
       this.search.setFocus();
     });
@@ -131,6 +133,20 @@ export class FormArticleModalPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  async actualizar(mensaje: string){
+    const loading = await this.loadingCtrl.create({
+      message:mensaje
+    });
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.restService.obtenerProductosEmpresa()
+    .then(data => {
+      this.productos = data['data'];
+    })
+    }, 500 );
   }
 
   cancelar() {

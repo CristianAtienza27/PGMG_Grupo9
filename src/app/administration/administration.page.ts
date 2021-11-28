@@ -28,6 +28,9 @@ export class AdministrationPage implements OnInit {
 
    ngOnInit() {
     //this.getUsuarios();
+  }
+
+  ionViewWillEnter(){
     this.restService.obtenerUsuarios().subscribe (usuarios => {
       this.usuarios = usuarios;
     })

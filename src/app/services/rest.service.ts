@@ -251,10 +251,10 @@ export class RestService {
 
   obtenerProductosEmpresa(){
 
-    this.obtenerUsuario();
+    //.obtenerUsuario();
 
     return new Promise(resolve =>{
-      this.http.post<Product>(this.apiUrl + '/products/company',
+      this.http.post(this.apiUrl + '/products/company',
       {
         id: this.usuario.data.company_id
       },

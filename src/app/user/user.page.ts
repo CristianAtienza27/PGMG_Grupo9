@@ -12,7 +12,7 @@ import { FormArticleModalPage } from '../form-article-modal/form-article-modal.p
 })
 export class UserPage implements OnInit {
 
-  productos: any;
+  productos: any[] = [];
 
   constructor(
     public restService: RestService,
@@ -38,23 +38,24 @@ export class UserPage implements OnInit {
 
   borrarProducto(id: string){
     this.restService.eliminarProducto(id);
-    this.actualizar();
+    this.actualizar('Eliminando producto');
   }
 
   cargarProdutos(){
     this.restService.obtenerProductosEmpresa()
     .then(data => {
-      this.productos = data;
-      this.productos = this.productos.data;
+      this.productos = data['data'];
     })
   }
 
-  async actualizar(){
-    const loading = await this.loadingCtrl.create({});
+  async actualizar(mensaje: string){
+    const loading = await this.loadingCtrl.create({
+      message:mensaje
+    });
     loading.present();
     setTimeout(() => {
       loading.dismiss();
       this.cargarProdutos();
-    }, 100 );
+    }, 500 );
   }
 }

@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
         this.usuario = user;
         this.usuario = this.usuario.data;
 
-        if(this.usuario.email_confirmed == 0){
+        if(this.usuario.email_confirmed == 1){
 
           if(this.usuario.actived == 1){
 
