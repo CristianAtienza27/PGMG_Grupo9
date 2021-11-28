@@ -13,6 +13,7 @@ import { FormArticleModalPage } from '../form-article-modal/form-article-modal.p
 export class UserPage implements OnInit {
 
   productos: any[] = [];
+  limiteProductos = 20;
 
   constructor(
     public restService: RestService,
@@ -33,12 +34,17 @@ export class UserPage implements OnInit {
       }
     })
 
+    modal.onDidDismiss()
+    .then((data) => {
+      this.cargarProdutos();
+    })
+
     await modal.present();
   }
 
-  borrarProducto(id: string){
+  borrarProducto(index: number, id: string){
+    this.productos.splice(index, Number(id));
     this.restService.eliminarProducto(id);
-    this.actualizar('Eliminando producto');
   }
 
   cargarProdutos(){
@@ -56,6 +62,6 @@ export class UserPage implements OnInit {
     setTimeout(() => {
       loading.dismiss();
       this.cargarProdutos();
-    }, 500 );
+    }, 10 );
   }
 }

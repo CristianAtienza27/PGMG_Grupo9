@@ -31,7 +31,7 @@ export class FormArticleModalPage implements OnInit {
   ngOnInit() {
     this.cargarArticulos();
   }
-
+                                                   
   cargarArticulos(){
     this.restService.obtenerArticulos()
     .then(data => {
@@ -94,9 +94,8 @@ export class FormArticleModalPage implements OnInit {
               }
 
               this.restService.insertarProducto(this.producto);
-              this.actualizar('Añadiendo producto');
               //this.restService.obtenerProductosEmpresa();
-              this.modal.dismiss();
+              this.modal.dismiss(this.productos);
             }
 
           }

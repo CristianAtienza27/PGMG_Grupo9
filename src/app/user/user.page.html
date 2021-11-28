@@ -2,10 +2,10 @@
 
 <ion-content>
   <ion-toolbar>
-    <ion-title >Productos {{productos.length}}/20</ion-title>
+    <ion-title >Productos {{productos.length}}/{{limiteProductos}}</ion-title>
     <ion-progress-bar value="{{productos.length * 0.05}}"></ion-progress-bar>
   </ion-toolbar>
-  <ion-item-sliding *ngFor="let producto of productos">
+  <ion-item-sliding *ngFor="let producto of productos; index as i">
     <ion-item>
         <ion-label>
           <h3>{{ producto.compamy_description }}</h3>
@@ -15,7 +15,7 @@
           </ion-label>
       </ion-item>
     <ion-item-options slot="end">
-      <ion-item-option color="danger" (click)="borrarProducto(producto.id)">
+      <ion-item-option color="danger" (click)="borrarProducto(i, producto.id)">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
       </ion-item-option>
     </ion-item-options>
