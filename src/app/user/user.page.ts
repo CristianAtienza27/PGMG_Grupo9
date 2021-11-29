@@ -14,6 +14,7 @@ export class UserPage implements OnInit {
 
   productos: any[] = [];
   limiteProductos = 20;
+  isDisable = false;
 
   constructor(
     public restService: RestService,
@@ -43,14 +44,16 @@ export class UserPage implements OnInit {
   }
 
   borrarProducto(index: number, id: string){
-    this.productos.splice(index, Number(id));
+    this.productos.splice(index, 1);
     this.restService.eliminarProducto(id);
+    this.isDisable = this.productos.length == this.limiteProductos ? true : false;
   }
 
   cargarProdutos(){
     this.restService.obtenerProductosEmpresa()
     .then(data => {
       this.productos = data['data'];
+      this.isDisable = this.productos.length == this.limiteProductos ? true : false;
     })
   }
 

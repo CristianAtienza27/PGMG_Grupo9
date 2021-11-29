@@ -7,7 +7,7 @@
   </ion-refresher>
   
   <ion-list #lista>
-    <ion-item-sliding *ngFor="let usuario of usuarios">
+    <ion-item-sliding *ngFor="let usuario of usuarios; index as i">
       <ion-item *ngIf="usuario.type==='u' && usuario.deleted===0">
         <ion-label>
           <h3>{{ usuario.firstname }} {{ usuario.secondname }}</h3>
@@ -27,7 +27,7 @@
           <ion-item-option>
             <ion-icon slot="icon-only" name="pencil-outline" (click)="editar(usuario)"></ion-icon>
             </ion-item-option>
-          <ion-item-option color="danger" (click)="eliminar(usuario)">
+          <ion-item-option color="danger" (click)="eliminar(i, usuario)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>

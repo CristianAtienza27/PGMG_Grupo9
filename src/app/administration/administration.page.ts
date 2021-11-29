@@ -51,7 +51,6 @@ export class AdministrationPage implements OnInit {
     })
 
     this.lista.closeSlidingItems();
-    // this.actualizar();
   }
 
   async desactivar(user) {
@@ -69,7 +68,6 @@ export class AdministrationPage implements OnInit {
     })
 
     this.lista.closeSlidingItems();
-    // this.actualizar();
   }
 
   async editar(user) {
@@ -87,7 +85,7 @@ export class AdministrationPage implements OnInit {
     this.lista.closeSlidingItems();
   }
 
-  async eliminar(user) {
+  async eliminar(index, user) {
 
     const alert = await this.alertController.create({
       header: 'Confirmación',
@@ -100,9 +98,8 @@ export class AdministrationPage implements OnInit {
         {
           text: 'Confirmar',
           handler: () => {
+            this.usuarios.splice(index, 1)
             this.restService.eliminarUsuario(user.id)
-        
-            this.actualizar();
           }
         }
       ]
@@ -111,20 +108,9 @@ export class AdministrationPage implements OnInit {
     await alert.present();
 
     this.lista.closeSlidingItems();
-    //this.actualizar();
+
   }
 
-  async actualizar(){
-    const loading = await this.loadingCtrl.create({});
-    loading.present();
-    setTimeout(() => {
-      loading.dismiss();
-      this.restService.obtenerUsuarios().subscribe (usuarios => {
-        this.usuarios = usuarios;
-      })
-    }, 100 );
-  }
-  
   // getUsuarios(){
   //   if(this.restService.token != undefined){
 
