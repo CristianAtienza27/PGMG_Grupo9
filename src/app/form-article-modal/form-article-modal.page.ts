@@ -151,4 +151,5 @@ export class FormArticleModalPage implements OnInit {
   cancelar() {
     this.modal.dismiss();
   }
+  
 }
