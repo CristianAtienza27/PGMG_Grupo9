@@ -6,11 +6,11 @@ import { AlertController } from '@ionic/angular';
 import { FormArticleModalPage } from '../form-article-modal/form-article-modal.page';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.page.html',
-  styleUrls: ['./user.page.scss'],
+  selector: 'app-catalogo',
+  templateUrl: './catalogo.page.html',
+  styleUrls: ['./catalogo.page.scss'],
 })
-export class UserPage implements OnInit {
+export class CatalogoPage implements OnInit {
 
   productos: any[] = [];
   limiteProductos = 20;

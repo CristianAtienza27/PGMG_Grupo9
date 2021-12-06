@@ -7,14 +7,14 @@
         <ion-label>Usuarios</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button *ngIf="type=='u'">
-        <ion-icon name="person"></ion-icon>
+      <ion-tab-button *ngIf="type=='u'" [routerLink]="['/catalogo']">
+        <ion-icon name="bag-handle-outline"></ion-icon>
         <ion-label>Catálogo</ion-label>
       </ion-tab-button>
       
-      <ion-tab-button>
-        <ion-icon name="close-circle"></ion-icon>
-        <ion-label>No Works</ion-label>
+      <ion-tab-button *ngIf="type=='u'" [routerLink]="['/pedidos']">
+        <ion-icon name="documents-outline"></ion-icon>
+        <ion-label>Pedidos</ion-label>
       </ion-tab-button>
   
       <ion-tab-button>

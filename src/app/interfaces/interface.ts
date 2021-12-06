@@ -41,3 +41,34 @@ export interface Article{
     deleted: number;
 }
 
+export interface Pedidos {
+  success: boolean;
+  pedido: Pedido[];
+  message: string;
+}
+
+export interface Pedido {
+  id: number;
+  num: string;
+  issue_date: string;
+  target_company_name: string;
+  created_at: string;
+  delivery_notes: number;
+  invoices: number;
+}
+
+export interface Productos {
+  productos: Producto[];
+}
+
+export interface Producto {
+  id: number;
+  article_id: number;
+  company_id: number;
+  compamy_name: string;
+  compamy_description: string;
+  price: string;
+  stock: number;
+  family_id: number;
+  deleted: number;
+}

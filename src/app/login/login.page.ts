@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
               this.route.navigate(['/administration']);
             }
             else{
-              this.route.navigate(['/user']);
+              this.route.navigate(['/catalogo']);
             }
             
           }else{

@@ -1,0 +1,12 @@
+<ion-card color="dark">
+  <ion-card-header>
+      <ion-card-subtitle>
+          <span>{{pedido.num}}</span>
+      </ion-card-subtitle>
+      <ion-card-title>{{pedido.target_company_name}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+      <p>Fecha de expedición: {{pedido.created_at}}</p>
+      <p>Fecha de entrega: {{pedido.issue_date}}</p>
+  </ion-card-content>
+</ion-card>

@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'forgot-password',
-    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  },
-  {
     path: 'administration',
     loadChildren: () => import('./administration/administration.module').then( m => m.AdministrationPageModule)
   },
@@ -32,8 +28,12 @@ const routes: Routes = [
     loadChildren: () => import('./form-article-modal/form-article-modal.module').then( m => m.FormArticleModalPageModule)
   },
   {
-    path: 'user',
-    loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
+    path: 'catalogo',
+    loadChildren: () => import('./catalogo/catalogo.module').then( m => m.UserPageModule)
+  },
+  {
+    path:'pedidos',
+    loadChildren: () => import('./pedidos/pedidos.module').then( m => m.PedidosPageModule)
   },
 ];
 

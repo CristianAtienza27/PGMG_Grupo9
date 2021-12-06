@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario, Usuarios, Company, Article, Product} from '../interfaces/interface';
+import { Usuario, Usuarios, Company, Article, Product, Pedidos} from '../interfaces/interface';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable({
@@ -249,9 +249,27 @@ export class RestService {
 
   }
 
-  obtenerProductosEmpresa(){
+  // obtenerArticulo(id: string){
 
-    //.obtenerUsuario();
+  //   return new Promise(resolve =>{
+  //     this.http.get(this.apiUrl + '/products/company' + id,
+  //     {
+  //       id: this.usuario.data.company_id
+  //     },
+  //     {
+  //       headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+  //     })
+  //     .subscribe(data => {resolve(data)
+  //       console.log(data);
+  //     err => {
+  //       console.log(err);
+  //     }
+  //     })
+  //   })
+
+  // }
+
+  obtenerProductosEmpresa(){
 
     return new Promise(resolve =>{
       this.http.post(this.apiUrl + '/products/company',
@@ -270,10 +288,18 @@ export class RestService {
     })
   }
 
+  obtenerPedidos(){
+
+    return this.http.get<Pedidos>(this.apiUrl + "/orders" ,{
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+  }
+
   obtenerFamilia(){
+
     return new Promise(resolve =>{
       this.http.get(this.apiUrl + '/families', {
-        headers: new HttpHeaders().set('Authorization', 'Bearer' + this.token)
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
       .subscribe(data => {resolve(data)
         console.log(data);
