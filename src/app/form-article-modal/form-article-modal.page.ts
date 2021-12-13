@@ -20,6 +20,7 @@ export class FormArticleModalPage implements OnInit {
   producto: any;
   idProd: string[] = [];
   idArt: string[] = [];
+  familias: any[] = [];
 
   constructor(
     public restService: RestService,
@@ -30,6 +31,7 @@ export class FormArticleModalPage implements OnInit {
 
   ngOnInit() {
     this.cargarArticulos();
+    this.cargarFamilias();
   }
                                                    
   cargarArticulos(){
@@ -62,6 +64,13 @@ export class FormArticleModalPage implements OnInit {
     
   })}
 
+  cargarFamilias(){
+    this.restService.obtenerFamilia().then(data => {
+      this.familias = data['data'];
+      console.log(this.familias);
+    })
+  }
+
   async addArticulo(article: any) {
 
     const alert = await this.alertController.create({
@@ -82,7 +91,9 @@ export class FormArticleModalPage implements OnInit {
           text: 'Añadir',
           handler: (data) => {
 
-            if(data.price < article.price_min || data.price > article.price_max ) {
+            data.price = this.applyArtMargenBeneficio(article, parseFloat(data.price));
+
+            if(data.price < article.price_min || data.price > article.price_max) {
               this.presentToast(article.price_min, article.price_max);
             }
             else{
@@ -128,8 +139,8 @@ export class FormArticleModalPage implements OnInit {
 
   async presentToast(price_min: any, price_max: any) {
     const toast = await this.toastCtrl.create({
-      message: 'El precio debe ser entre ' + price_min + ' y ' + price_max + '€',
-      duration: 2000
+      message: 'El precio debe ser entre ' + price_min + ' y ' + price_max + '€. El precio máximo no incluye el margen de beneficio del producto.',
+      duration: 3000
     });
     toast.present();
   }
@@ -147,6 +158,18 @@ export class FormArticleModalPage implements OnInit {
     })
     }, 500 );
   }
+
+  applyArtMargenBeneficio(article: any, precio: number){
+    var family = this.familias.find(f => f['id'] == article.family_id);
+    precio = precio + (precio * (parseInt(family['profit_margin']) / 100));
+    return precio;
+  }
+
+  // applyPrdMargenBeneficio(producto: any, precio: number){
+  //   var family = this.familias.find(f => f['id'] == producto.family_id);
+  //   producto.price_max = parseFloat(article.price_max) + (parseFloat(article.price_max) * (parseInt(family['profit_margin']) / 100));
+  //   return "";
+  // }
 
   cancelar() {
     this.modal.dismiss();

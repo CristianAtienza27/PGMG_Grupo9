@@ -34,10 +34,12 @@ export interface Product{
 export interface Article{
     id: number;
     description: string;
-    company_id: number;
-    price: number;
-    stock: number;
+    price_min: number;
+    price_max: number;
     family_id: number;
+    color_name: string;
+    size: string;
+    weight: string;
     deleted: number;
 }
 
@@ -72,3 +74,5 @@ export interface Producto {
   family_id: number;
   deleted: number;
 }
+
+
