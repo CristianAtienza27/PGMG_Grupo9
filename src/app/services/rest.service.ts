@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario, Usuarios, Company, Article, Product, Pedidos} from '../interfaces/interface';
+import { Usuario, Usuarios, Company, Article, Product,Pedido, Pedidos} from '../interfaces/interface';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class RestService {
   token: any;
   id: number;
   company_id: number;
+  company: string;
   usuario: any;
   usuarios: Usuario[];
   usuarios$: Subject<Usuario[]>;
@@ -163,7 +164,8 @@ export class RestService {
       })
       .subscribe(data => {resolve(data)
         this.usuario = data;
-        console.log(data);
+        this.company = this.usuario['data']['company'];
+        console.log(this.usuario);
       err => {
         console.log(err)
       }})
@@ -289,10 +291,16 @@ export class RestService {
   }
 
   obtenerPedidos(){
-
-    return this.http.get<Pedidos>(this.apiUrl + "/orders" ,{
+    return new Promise(resolve =>{
+      this.http.get<Pedido>(this.apiUrl + '/orders', {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
       })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err=> {
+        console.log(err);
+      }})
+    })
   }
 
   obtenerFamilia(){

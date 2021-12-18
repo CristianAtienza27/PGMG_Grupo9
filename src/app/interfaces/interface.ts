@@ -54,6 +54,7 @@ export interface Pedido {
   num: string;
   issue_date: string;
   target_company_name: string;
+  family_id: number;
   created_at: string;
   delivery_notes: number;
   invoices: number;

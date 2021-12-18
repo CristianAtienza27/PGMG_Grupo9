@@ -91,7 +91,7 @@ export class FormArticleModalPage implements OnInit {
           text: 'Añadir',
           handler: (data) => {
 
-            data.price = this.applyArtMargenBeneficio(article, parseFloat(data.price));
+            data.price = this.applyMargenBeneficio(article, parseFloat(data.price));
 
             if(data.price < article.price_min || data.price > article.price_max) {
               this.presentToast(article.price_min, article.price_max);
@@ -159,17 +159,11 @@ export class FormArticleModalPage implements OnInit {
     }, 500 );
   }
 
-  applyArtMargenBeneficio(article: any, precio: number){
+  applyMargenBeneficio(article: any, precio: number){
     var family = this.familias.find(f => f['id'] == article.family_id);
     precio = precio + (precio * (parseInt(family['profit_margin']) / 100));
     return precio;
   }
-
-  // applyPrdMargenBeneficio(producto: any, precio: number){
-  //   var family = this.familias.find(f => f['id'] == producto.family_id);
-  //   producto.price_max = parseFloat(article.price_max) + (parseFloat(article.price_max) * (parseInt(family['profit_margin']) / 100));
-  //   return "";
-  // }
 
   cancelar() {
     this.modal.dismiss();

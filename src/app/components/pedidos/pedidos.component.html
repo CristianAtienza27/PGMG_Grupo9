@@ -1,8 +1,14 @@
-<ion-grid fixed>
+<ion-list>
         <ion-row>
             <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let pedido of pedidos; let i = index">
                 <app-pedido [pedido]="pedido"></app-pedido>
             </ion-col>
         </ion-row>
+    <ion-infinite-scroll threshold="150px"
+    (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Cargando...">
+  </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-list>
     
 
