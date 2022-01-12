@@ -17,6 +17,12 @@ export interface Usuario{
     created_at: Date;
 }
 
+export interface Companies {
+  success: boolean;
+  company: Company[];
+  message: string;
+}
+
 export interface Company{
     id: number;
     name: string;

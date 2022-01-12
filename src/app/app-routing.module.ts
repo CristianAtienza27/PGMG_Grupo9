@@ -35,6 +35,14 @@ const routes: Routes = [
     path:'pedidos',
     loadChildren: () => import('./pedidos/pedidos.module').then( m => m.PedidosPageModule)
   },
+  {
+    path: 'empresas-modal',
+    loadChildren: () => import('./empresas-modal/empresas-modal.module').then( m => m.EmpresasModalPageModule)
+  },
+  {
+    path: 'empresas-modal',
+    loadChildren: () => import('./empresas-modal/empresas-modal.module').then( m => m.EmpresasModalPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Pedido } from 'src/app/interfaces/interface';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, AlertController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
+import { EmpresasModalPage } from '../../empresas-modal/empresas-modal.page';
 
 @Component({
   selector: 'app-pedidos',
@@ -14,7 +15,7 @@ export class PedidosComponent implements OnInit {
 
   @Input() pedidos: Pedido[] = [];
   
-  constructor(restService: RestService) { }
+  constructor(restService: RestService, public alertController: AlertController, public modalController: ModalController) { }
 
   ngOnInit() {}
 
@@ -29,6 +30,21 @@ export class PedidosComponent implements OnInit {
 
       event.target.complete();
      }, 2000);
-   }
+  }
 
+  async selectEmpresa(){
+    const modal = await this.modalController.create({
+      component: EmpresasModalPage,
+      componentProps:{
+        titulo: 'Realizar Pedido',
+      }
+    })
+
+    // modal.onDidDismiss()
+    // .then((data) => {
+    //   this.cargarProdutos();
+    // })
+
+    await modal.present();
+  }
 }
