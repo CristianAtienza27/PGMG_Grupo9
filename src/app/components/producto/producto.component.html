@@ -1,0 +1,9 @@
+<ion-item>
+    <ion-checkbox (ionChange)="habilitarCant($event)" slot="start"></ion-checkbox>
+    <h5>{{prod['compamy_description']}}</h5>
+    <ion-buttons *ngIf="prod['isChecked']==true" slot="end">
+    <ion-button size="small" slot="end" (click)="restCant()"><ion-icon name="remove"></ion-icon></ion-button>
+    <ion-label slot="end">{{prod['cant']}}</ion-label>
+    <ion-button size="small" slot="end" (click)="sumarCant()"><ion-icon name="add"></ion-icon></ion-button>
+</ion-buttons>
+</ion-item>

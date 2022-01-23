@@ -12,24 +12,28 @@
 <ion-item>
   <ion-label>Empresas</ion-label>
   <ion-select placeholder="Selecciona una empresa" (ionChange)="seleccionarCompania($event)">
-    <ion-select-option *ngFor="let company of companies" value="{{company.name}}">{{company.name}}</ion-select-option>
+    <ion-select-option *ngFor="let company of companies" value="{{company.id}}">{{company.name}}</ion-select-option>
   </ion-select>
 </ion-item>
 
 <ion-content>
-  <ion-item-sliding>
-    <ion-item>
-        <ion-label>
-          <h3></h3>
-        </ion-label>
-        <ion-label slot="end" text-right>
-          <p></p>
-          </ion-label>
-      </ion-item>
-    <ion-item-options slot="end">
-      <ion-item-option color="danger">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
-      </ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
+  <ion-list>
+    <ion-row>
+        <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let prod of prodFiltrados; let i = index">
+            <app-producto [prod]="prod"></app-producto>
+        </ion-col>
+        <div *ngIf="prodFiltrados.length == 0" style="margin-top: 20px; margin-left: auto;margin-right: auto;" classs="ion-text-center">
+          <ion-label >No hay productos para mostrar</ion-label>
+        </div>
+    </ion-row>
+  <ion-infinite-scroll threshold="150px">
+  <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Cargando...">
+  </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="realizarPedido()">
+    <ion-icon name="checkmark-outline"></ion-icon>
+  </ion-fab-button>
+  </ion-fab>
 </ion-content>

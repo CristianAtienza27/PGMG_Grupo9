@@ -26,7 +26,7 @@ export class PedidosPage implements OnInit {
       this.pedidosEmpresa.push(...ped['data']);
 
       this.pedidosEmpresa.forEach(ped => {
-         if(ped.target_company_name == this.restService.company){
+         if(ped.target_company_name != this.restService.company){
           this.pedidos.push(ped);
          }
        })

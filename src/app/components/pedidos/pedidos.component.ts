@@ -37,6 +37,7 @@ export class PedidosComponent implements OnInit {
       component: EmpresasModalPage,
       componentProps:{
         titulo: 'Realizar Pedido',
+        
       }
     })
 

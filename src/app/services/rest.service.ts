@@ -271,12 +271,12 @@ export class RestService {
 
   // }
 
-  obtenerProductosEmpresa(){
+  obtenerProductosEmpresa(idProd? : number){
 
     return new Promise(resolve =>{
       this.http.post(this.apiUrl + '/products/company',
       {
-        id: this.usuario.data.company_id
+        id: (idProd == null ? this.usuario.data.company_id : idProd)
       },
       {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
@@ -330,7 +330,26 @@ export class RestService {
       }
     })
     })
+  }
 
+  insertarPedido(pedido: any, prods:string){
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/orders', {
+        num: pedido['num'],
+        issue_date: pedido['issue_date'],
+        origin_company_id: pedido['origin_company_id'],
+        target_company_id: pedido['target_company_id'],
+        products: '1,1,2,2',
+      },
+      {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+      })
+      .subscribe(data => {resolve(data)
+        console.log(data);
+      err => {
+        console.log(err);
+      }})
+    })
   }
 
 }

@@ -28,9 +28,19 @@ export interface Company{
     name: string;
 }
 
+export interface Products{
+  success: boolean;
+  product: Product[];
+  message: string;
+}
+
 export interface Product{
     article_id: number;
     company_id: number;
+    compamy_name: string;
+    compamy_description: string;
+    isChecked: boolean;
+    cant: number;
     price: number;
     stock: number;
     family_id: number;
@@ -59,8 +69,9 @@ export interface Pedido {
   id: number;
   num: string;
   issue_date: string;
+  origin_company_id: number;
   target_company_name: string;
-  family_id: number;
+  target_company_id: number;
   created_at: string;
   delivery_notes: number;
   invoices: number;
@@ -76,6 +87,7 @@ export interface Producto {
   company_id: number;
   compamy_name: string;
   compamy_description: string;
+  isChecked: boolean;
   price: string;
   stock: number;
   family_id: number;
