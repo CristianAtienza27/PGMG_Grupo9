@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RestService } from '../services/rest.service';
 import { Companies, Company, Products, Product, Pedido } from '../interfaces/interface';
+import { PedidoPDFComponent } from '../components/pedido-pdf/pedido-pdf.component';
+import { FormArticleModalPage } from '../form-article-modal/form-article-modal.page';
+import { PedidoPDFPage } from '../pedido-pdf/pedido-pdf.page';
 
 @Component({
   selector: 'app-empresas-modal',
@@ -20,7 +23,9 @@ export class EmpresasModalPage implements OnInit {
   pedido: any;
   target_company_id: number;
 
-  constructor(public restService: RestService,public modal: ModalController) { }
+  constructor(
+    public restService: RestService,
+    public modalForm: ModalController) { }
 
   ngOnInit() {
     this.cargarCompanias();
@@ -83,7 +88,7 @@ export class EmpresasModalPage implements OnInit {
     })
   }
 
-  realizarPedido(){
+  async realizarPedido(){
     var prodAndCant = '';
     
     this.prodFiltrados.forEach(producto => {
@@ -104,6 +109,17 @@ export class EmpresasModalPage implements OnInit {
 
     this.restService.insertarPedido(this.pedido,prodAndCant);
 
+    const modal = await this.modalForm.create({
+      component: PedidoPDFPage
+    })
+  }
+
+  async crearPDF(){
+    const modal = await this.modalForm.create({
+      component: PedidoPDFPage
+    })
+
+    await modal.present();
   }
 
   obtenerFechaActual(){
@@ -123,7 +139,7 @@ export class EmpresasModalPage implements OnInit {
   }
 
   cancelar() {
-    this.modal.dismiss();
+    this.modalForm.dismiss();
   }
 
 }

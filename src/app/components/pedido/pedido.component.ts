@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Pedido } from 'src/app/interfaces/interface';
+import { PDFGenerator } from '@ionic-native/pdf-generator';
 
 @Component({
   selector: 'app-pedido',
