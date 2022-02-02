@@ -5,107 +5,96 @@
         <ion-icon class="icon" name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="title-ios ion-text-capitalize">Order Invoice</ion-title>
+    <ion-title class="title-ios ion-text-capitalize">Factura del pedido {{ this.pedido['num'] }}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div id="PrintInvoice" class="invoice-box"
-    style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
-    <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left;">
+  <div id="print-wrapper" class="print-wrapper"
+    style="margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
+    <table >
       <tr class="top">
         <td colspan="2" style="padding: 5px;vertical-align: top;">
           <table style="width: 100%;line-height: inherit;text-align: left;">
             <tr>
               <td class="title"
                 style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333;">
-                <img src="../../../assets/enappd.png" style="width:100%; max-width:300px;">
+                <img src="../../assets/icon/logoAG.png" style="width:100%; max-width:200px;">
               </td>
 
               <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 20px;">
-                Invoice #<br>
-                Created: <br>
+                Created: {{ this.pedido['issue_date']}}<br>
               </td>
             </tr>
           </table>
         </td>
       </tr>
-
       <tr class="information">
         <td colspan="2" style="padding: 5px;vertical-align: top;">
-          <table style="width: 100%;line-height: inherit;text-align: left;">
+          <table class="table table-striped">
             <tr>
               <td style="padding: 5px;vertical-align: top;padding-bottom: 40px;">
-                Address:<br>
+                Almagest<br>
                <br>
                 
               </td>
 
               <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 40px;">
-                Username:<br>
+                Dirección:<br>
+                <br>
+              </td>
+
+              <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 40px;">
+                CIF:<br>
                 <br>
               </td>
             </tr>
           </table>
         </td>
       </tr>
-
-      <tr class="heading">
-        <td style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
-          Payment Method
-        </td>
-
+      <tr>
         <td
-          style="padding: 5px;vertical-align: top;text-align: right;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
-          Payment ID
+          style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
+          Descripción
+        </td>
+        <td style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
+          Cant.
+        </td>
+        <td
+          style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
+          Precio
+        </td>
+        <td style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
+          Importe
         </td>
       </tr>
 
-      <tr class="details">
+      <tr class="details" *ngFor="let prod of productos; let i = index">
         <td style="padding: 5px;vertical-align: top;padding-bottom: 20px;">
-          Card
+          {{ prod['compamy_description']}}
         </td>
-
-        <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 20px;">
-          
+        <td style="padding: 5px;vertical-align: top;padding-bottom: 20px;">
+          {{ prod['cant']}}
         </td>
-      </tr>
-
-      <tr class="heading">
-        <td style="padding: 5px;vertical-align: top;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
-          Item
+        <td style="padding: 5px;vertical-align: top;padding-bottom: 20px;">
+          {{ prod['price']}}
         </td>
-
-        <td
-          style="padding: 5px;vertical-align: top;text-align: right;background: #eee;border-bottom: 1px solid #ddd;font-weight: bold;">
-          Price
-        </td>
-      </tr>
-
-      <tr class="item">
-        <td style="padding: 5px;vertical-align: top;border-bottom: 1px solid #eee;">
-          
-        </td>
-
-        <td style="padding: 5px;vertical-align: top;text-align: right;border-bottom: 1px solid #eee;">
-          
+        <td style="padding: 5px;vertical-align: top;padding-bottom: 20px;">
+          {{ prod['cant'] * prod['price']}}
         </td>
       </tr>
 
       <tr class="total">
-        <td style="padding: 5px;vertical-align: top;"></td>
-
-        <td style="padding: 5px;vertical-align: top;text-align: right;border-top: 2px solid #eee;font-weight: bold;">
-          Total: 
+        <td style="padding: 5px;vertical-align: top;text-align: right;font-weight: bold;">
+          <p>Total: {{ this.total }}</p>
         </td>
       </tr>
     </table>
   </div>
 </ion-content>
-
-<ion-footer (click)="downloadInvoice()">
+<ion-footer (click)="createPdf()">
   <ion-toolbar color="success" class="ion-padding-horizontal">
     <div class="ion-text-center">
-      <h4 class="ion-no-margin">Download Invoice</h4>
+      <h4 class="ion-no-margin">Descargar PDF</h4>
     </div>
   </ion-toolbar>
 </ion-footer>

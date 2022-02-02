@@ -12,6 +12,9 @@ import { FormUserModalPageModule } from './form-user-modal/form-user-modal.modul
 import { FormArticleModalPageModule } from './form-article-modal/form-article-modal.module';
 import { PedidoPDFComponent } from './components/pedido-pdf/pedido-pdf.component';
 import { PedidoPDFPageModule } from './pedido-pdf/pedido-pdf.module';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +23,10 @@ import { PedidoPDFPageModule } from './pedido-pdf/pedido-pdf.module';
   providers: [
     StatusBar,
     PDFGenerator,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    EmailComposer,
+    File,
+    FileOpener,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],
 })

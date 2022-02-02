@@ -251,26 +251,6 @@ export class RestService {
 
   }
 
-  // obtenerArticulo(id: string){
-
-  //   return new Promise(resolve =>{
-  //     this.http.get(this.apiUrl + '/products/company' + id,
-  //     {
-  //       id: this.usuario.data.company_id
-  //     },
-  //     {
-  //       headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
-  //     })
-  //     .subscribe(data => {resolve(data)
-  //       console.log(data);
-  //     err => {
-  //       console.log(err);
-  //     }
-  //     })
-  //   })
-
-  // }
-
   obtenerProductosEmpresa(idProd? : number){
 
     return new Promise(resolve =>{

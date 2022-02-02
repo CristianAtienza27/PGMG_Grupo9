@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { ProductoComponent } from './producto/producto.component';
 import { PedidoPDFComponent } from './pedido-pdf/pedido-pdf.component';
+import { PedidoPDFPageModule } from '../pedido-pdf/pedido-pdf.module';
 
 @NgModule({
   declarations: [

@@ -1,10 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { RestService } from '../services/rest.service';
 import { Companies, Company, Products, Product, Pedido } from '../interfaces/interface';
-import { PedidoPDFComponent } from '../components/pedido-pdf/pedido-pdf.component';
-import { FormArticleModalPage } from '../form-article-modal/form-article-modal.page';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { Platform } from '@ionic/angular';
+import pdfMake from "pdfmake/build/pdfmake";
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { PedidoPDFPage } from '../pedido-pdf/pedido-pdf.page';
+import { Usuario } from '../interfaces/interface';
 
 @Component({
   selector: 'app-empresas-modal',
@@ -14,7 +18,8 @@ import { PedidoPDFPage } from '../pedido-pdf/pedido-pdf.page';
 export class EmpresasModalPage implements OnInit {
 
   @Input() titulo: string;
-  companies: Companies[] = [];
+  companies: Company[] = [];
+  myCompany: Company[];
   products: Product[] = [];
   myProducts: Product[] = [];
   prodFiltrados: Product[] = [];
@@ -22,19 +27,39 @@ export class EmpresasModalPage implements OnInit {
   idProd: number[] = [];
   pedido: any;
   target_company_id: number;
+  docDefinition: any;
+  pdfObj: any;
+  prodsPedido: Product[] = [];
+  contactos: Usuario[] = [];
 
   constructor(
     public restService: RestService,
-    public modalForm: ModalController) { }
+    public modalForm: ModalController,
+    public emailComposer: EmailComposer,
+    public platform: Platform,
+    public file:File,
+    public fileOpener :FileOpener,
+    public alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.cargarCompanias();
     this.obtenerMisProd();
   }
 
+  obtenerContactos(){
+    this.restService.obtenerUsuarios().forEach(data => {
+      this.contactos = data['data'];
+    })
+
+    this.contactos.filter
+    console.log(this.contactos);
+  }
+
   cargarCompanias(){
     this.restService.obtenerCompanias().then(data => { 
       this.companies = data['data'];
+      this.myCompany = this.companies.filter(companies =>companies['id'] == this.restService.company_id)
+      console.log(this.myCompany);
       this.companies = this.companies.filter(companies =>companies['id'] != this.restService.company_id);
       console.log(this.companies);
     })
@@ -68,7 +93,6 @@ export class EmpresasModalPage implements OnInit {
         }}
 
       console.log(this.prodFiltrados);
-
     })
 
   }
@@ -90,10 +114,12 @@ export class EmpresasModalPage implements OnInit {
 
   async realizarPedido(){
     var prodAndCant = '';
-    
+    this.prodsPedido = []
+
     this.prodFiltrados.forEach(producto => {
       if(producto.isChecked){
-        prodAndCant += producto['article_id'] + ',' + producto.cant + ',';
+        console.log(producto.article_id)
+        this.prodsPedido.push(producto)
       }
     })
 
@@ -108,15 +134,14 @@ export class EmpresasModalPage implements OnInit {
     }
 
     this.restService.insertarPedido(this.pedido,prodAndCant);
+    alert('Pedido Realizado')
 
     const modal = await this.modalForm.create({
-      component: PedidoPDFPage
-    })
-  }
-
-  async crearPDF(){
-    const modal = await this.modalForm.create({
-      component: PedidoPDFPage
+        component: PedidoPDFPage,
+        componentProps:{
+          productos: this.prodsPedido,
+          pedido: this.pedido
+        }
     })
 
     await modal.present();
