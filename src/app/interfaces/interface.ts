@@ -47,16 +47,47 @@ export interface Product{
     deleted: number;
 }
 
+export interface Order {
+  id: number;
+  origin_company_id: number;
+  order_lines: Orderline[];
+}
+
+export interface Orderline {
+  id: number;
+  order_id: number;
+  order_line_num: string;
+  issue_date: string;
+  deleted: number;
+  created_at: string;
+  updated_at: string;
+  articles_line: Articlesline[];
+}
+
+export interface Articlesline {
+  id: number;
+  article_id: number;
+  num_articles: number;
+  order_lines_id: number;
+  deleted: number;
+  updated_at: string;
+  created_at: string;
+  article: Article;
+}
+
 export interface Article{
-    id: number;
-    description: string;
-    price_min: number;
-    price_max: number;
-    family_id: number;
-    color_name: string;
-    size: string;
-    weight: string;
-    deleted: number;
+  id: number;
+  name: string;
+  description: string;
+  price_min: string;
+  price_max: string;
+  color_name: string;
+  weight: string;
+  size: string;
+  family_id: number;
+  deleted: number;
+  created_at?: any;
+  updated_at?: any;
 }
 
 export interface Pedidos {
@@ -68,7 +99,7 @@ export interface Pedidos {
 export interface Pedido {
   id: number;
   num: string;
-  issue_date: string;
+  issue_date: Date;
   origin_company_id: number;
   target_company_name: string;
   target_company_id: number;
@@ -76,6 +107,8 @@ export interface Pedido {
   delivery_notes: number;
   invoices: number;
 }
+
+
 
 export interface Productos {
   productos: Producto[];

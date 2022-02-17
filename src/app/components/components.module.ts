@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { ProductoComponent } from './producto/producto.component';
 import { PedidoPDFComponent } from './pedido-pdf/pedido-pdf.component';
 import { PedidoPDFPageModule } from '../pedido-pdf/pedido-pdf.module';
+import { ChartComponent } from './chart/chart.component';
+import { NgChartsModule } from 'ng2-charts'
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { PedidoPDFPageModule } from '../pedido-pdf/pedido-pdf.module';
     PedidoComponent,
     ProductoComponent,
     PedidoPDFComponent,
+    ChartComponent
     ],
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule
+    RouterModule,
+    NgChartsModule
   ],
   exports:[
     HeaderComponent,
@@ -31,6 +35,7 @@ import { PedidoPDFPageModule } from '../pedido-pdf/pedido-pdf.module';
     PedidoComponent,
     ProductoComponent,
     PedidoPDFComponent,
+    ChartComponent
   ]
 })
 export class ComponentsModule { }

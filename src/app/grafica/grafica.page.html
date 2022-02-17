@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gráfica</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Producto</ion-label>
+      <ion-select (ionChange)="seleccionarProducto($event)">
+        <ion-select-option *ngFor="let prod of misProds" value="{{prod['article_id']}}">{{ prod['compamy_description']}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <app-chart #vecesComprado></app-chart>
+</ion-content>
+
+<app-footer type="u"></app-footer>

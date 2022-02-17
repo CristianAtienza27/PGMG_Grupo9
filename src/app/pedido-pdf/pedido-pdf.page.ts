@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
 import JSPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
@@ -112,14 +111,10 @@ export class PedidoPDFPage implements OnInit {
   enviarMail()
   {
     var cont = '';
-    this.contactos.forEach(contacto => cont+= contacto['email'] + ',')
+    // this.contactos.forEach(contacto => cont+= contacto['email'] + ',')
 
     let mail = {
       to: 'cristianatienza26@gmail.com',
-      //Prueba correo
-      //to: 'raul.reyesmangano@salesianos.edu',
-      // Descomentar para mandar a los contactos 
-      //to: cont,
       attachments: [
         'file:///data/user/0/io.ionic.starter/files/user-data.pdf'
       ],

@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'pedido-pdf',
     loadChildren: () => import('./pedido-pdf/pedido-pdf.module').then( m => m.PedidoPDFPageModule)
   },
+  {
+    path: 'grafica',
+    loadChildren: () => import('./grafica/grafica.module').then( m => m.GraficaPageModule)
+  },
 ];
 
 @NgModule({

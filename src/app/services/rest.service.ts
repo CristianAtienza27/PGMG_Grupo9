@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario, Usuarios, Company, Article, Product,Pedido, Pedidos} from '../interfaces/interface';
+import { Usuario, Usuarios, Company, Article, Product,Pedido, Order} from '../interfaces/interface';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class RestService {
   company_id: number;
   company: string;
   usuario: any;
+  misProds: any;
   usuarios: Usuario[];
   usuarios$: Subject<Usuario[]>;
 
@@ -263,6 +264,10 @@ export class RestService {
       })
       .subscribe(data => {resolve(data)
         console.log(data);
+        if(idProd == null){
+          this.misProds = data['data'];
+          console.log(this.misProds);
+        }
       err => {
         console.log(err);
       }
@@ -329,6 +334,16 @@ export class RestService {
       err => {
         console.log(err);
       }})
+    })
+  }
+  
+  obtenerPedidosEmpresa(): Observable<Order[]>{
+
+    return this.http.post<Order[]>(this.apiUrl + '/orders/company', {
+      id: this.company_id
+    },
+    {
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
     })
   }
 

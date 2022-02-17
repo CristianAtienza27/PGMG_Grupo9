@@ -17,15 +17,11 @@
         <ion-label>Pedidos</ion-label>
       </ion-tab-button>
   
-      <ion-tab-button>
-        <ion-icon name="close-circle"></ion-icon>
-        <ion-label>No Works</ion-label>
+      <ion-tab-button *ngIf="type=='u'" [routerLink]="['/grafica']">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <ion-label>Gráfica</ion-label>
       </ion-tab-button>
   
-      <ion-tab-button>
-        <ion-icon name="close-circle"></ion-icon>
-        <ion-label>No Works</ion-label>
-      </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
 </ion-tab-bar>
