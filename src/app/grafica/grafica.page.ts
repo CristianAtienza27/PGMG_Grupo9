@@ -46,8 +46,6 @@ export class GraficaPage implements OnInit {
         this.ObtenerPedidosPorMes(i, event.detail.value);
       }
 
-      console.log(event.detail.value);
-
       this.grafica.barChartData = [
         {data: [this.vecesComprado[5], this.vecesComprado[4], this.vecesComprado[3],this.vecesComprado[2], this.vecesComprado[1], this.vecesComprado[0]], label: 'Cantidad'},
       ];
@@ -62,7 +60,9 @@ export class GraficaPage implements OnInit {
     this.vecesComprado[mes] = 0;
 
     var primerDia = new Date(new Date().getFullYear(), new Date().getMonth() - mes ,1);
-    var ultimoDia = new Date(new Date().getFullYear(), new Date().getMonth() - mes + 1, 0);
+    var ultimoDia = new Date(new Date().getFullYear(), new Date().getMonth() - mes + 1, 0, 23, 59, 59);
+
+    console.log(primerDia + ' ' + ultimoDia);
 
     this.pedidos.filter(pedido => {
         pedido.order_lines.filter(order_line => {
@@ -76,9 +76,6 @@ export class GraficaPage implements OnInit {
           }
         })
     })
-    
-    // console.log(this.vecesComprado);
-
   }
 
 }
